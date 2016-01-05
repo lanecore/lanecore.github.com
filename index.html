@@ -43,9 +43,84 @@
 </p>
 
 <h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating pages manually</h3>
+<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span class="octicon octicon-link"></span></a>Yii的说明</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>
+<pre>
+目录结构
+-------------------
+```
+common
+    config/              contains 共享配置
+    mail/                contains 与邮件收发相关的文件
+    models/              contains 前后台都需要使用的model classes
+console
+    config/              contains 控制台 配置
+    controllers/         contains 控制台 控制器 (commands)
+    migrations/          contains 数据迁移
+    models/              contains 控制台专用的model文件
+    runtime/             contains 运行时缓存文件
+backend
+    assets/              contains 存放css js 等应用程序资料
+    config/              contains backend 配置
+    controllers/         contains 控制器类
+    models/              contains backend专用的Model文件
+    runtime/             contains 运行时缓存文件
+    views/               contains 视图文件
+    web/                 contains 存放需要使用的脚本和资源文件
+frontend
+    assets/              contains 存放css js 等应用程序资料
+    config/              contains frontend 配置
+    controllers/         contains 控制器类
+    models/              contains frontend专用的Model文件
+    runtime/             contains运行时缓存文件
+    views/               contains 视图文件
+    web/                 contains 存放需要使用的脚本和资源文件
+    widgets/             contains 独立的一些小部件，如登录、注册，。。。
+vendor/                  contains 第三方的库,Yii本身的库也是作为一个扩展来处理的
+environments/            contains 基础环境检测
+tests                    contains 单元测试
+    codeception/         contains 测试框架
+```
+
+主要是三个目录 backend（后台）、common(公用)、 frontend（前台）。
+解压成功后，需要用init.bat来初始化系统，分dev和prod两个环境，初始化后可以访问的两个地址：
+前台
+	http://127.0.0.1/advanced/frontend/web/index.php
+后台
+	http://127.0.0.1/advanced/backend/web/index.php
+
+
+配置数据库连接
+
+确保已安装了 PHP PDO 扩展和使用的数据库的 PDO 驱动（例如 MySQL 的 pdo_mysql）。
+驱动和扩展安装可用后，打开 config/db.php 修改里面的配置参数对应你的数据库配置。该文件默认包含这些内容：
+
+return [
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=localhost;dbname=yii2basic',
+    'username' => 'root',
+    'password' => '',
+    'charset' => 'utf8',
+];
+
+之后数据库有两种使用方法：
+1、使用继承ActiveRecord的方法，使用AR的ORM表映射关系来处理，好处是不用关心sql语句相关的处理，缺点是相对与用sql语句处理耗时会长一点
+2、使用DAO的方式处理数据库，
+	$connection = \Yii::$app->db;
+之后，通过
+	$command = $connection->createCommand('SELECT * FROM post');
+	$posts = $command->queryAll();
+这写方法来处理数据库，好处是所有的sql语句是可控的，相对的性能上也比较好一点，缺点是必须能够熟练的使用sql语句对数据库和表的处理
+
+
+phalcon 一个用extension写的框架，优点是性能比直接用php写的框架性能要好
+参考地址：
+	https://docs.phalconphp.com/zh/latest/index.html
+工具：
+	https://github.com/phalcon/phalcon-devtools
+</pre>
+</p>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
